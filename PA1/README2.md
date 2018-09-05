@@ -1,0 +1,4 @@
+Thomas McCrone
+CS480
+9:00-9:50 MWF
+PA1

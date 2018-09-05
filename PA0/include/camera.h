@@ -1,5 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include "graphics_headers.h"
 

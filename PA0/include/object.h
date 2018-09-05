@@ -1,5 +1,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include <vector>
 #include "graphics_headers.h"
