@@ -16,7 +16,7 @@ BUILD
 
 CONTROLS
 
-ESC(key) - escapes program window
-all other keys - reverse direction of cube
-M1(mouse) - reverses direction of cube
-M2(mouse) - reverses direction of cube
+	ESC(key) - escapes program window
+	all other keys - reverse direction of cube
+	M1(mouse) - reverses direction of cube
+	M2(mouse) - reverses direction of cube
