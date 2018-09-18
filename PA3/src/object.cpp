@@ -72,6 +72,80 @@ Object::Object()
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
 }
 
+Object::Object(bool moon)
+{  
+	IS_MOON = moon;
+  /*
+    # Blender File for a Cube
+    o Cube
+    v 1.000000 -1.000000 -1.000000
+    v 1.000000 -1.000000 1.000000
+    v -1.000000 -1.000000 1.000000
+    v -1.000000 -1.000000 -1.000000
+    v 1.000000 1.000000 -0.999999
+    v 0.999999 1.000000 1.000001
+    v -1.000000 1.000000 1.000000
+    v -1.000000 1.000000 -1.000000
+    s off
+    f 2 3 4
+    f 8 7 6
+    f 1 5 6
+    f 2 6 7
+    f 7 8 4
+    f 1 4 8
+    f 1 2 4
+    f 5 8 6
+    f 2 1 6
+    f 3 2 7
+    f 3 7 4
+    f 5 1 8
+  */
+
+  Vertices = {
+    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
+    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
+    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
+    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}},
+    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}},
+    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
+    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
+    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
+  };
+
+  Indices = {
+    2, 3, 4,
+    8, 7, 6,
+    1, 5, 6,
+    2, 6, 7,
+    7, 8, 4,
+    1, 4, 8,
+    1, 2, 4,
+    5, 8, 6,
+    2, 1, 6,
+    3, 2, 7,
+    3, 7, 4,
+    5, 1, 8
+  };
+
+  // The index works at a 0th index
+  for(unsigned int i = 0; i < Indices.size(); i++)
+  {
+    Indices[i] = Indices[i] - 1;
+  }
+
+  angleOrbit = 0.0f;
+  angleRotation = 0.0f;
+
+  glGenBuffers(1, &VB);
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+
+  glGenBuffers(1, &IB);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  
+  
+}
 
 Object::~Object()
 {
@@ -96,7 +170,6 @@ void Object::InvertedUpdateRotation(unsigned int dt)
   	angleRotation -= (dt * M_PI/1000);
   	model = glm::translate(glm::mat4(1.0f),glm::vec3(cos(angleRotation)*7,0.0f,sin(angleRotation)*7));
   	model = glm::rotate(model,(angleRotation),glm::vec3(0.0f,1.0f,0.0f));
-  
 }
 void Object::InvertedUpdateOrbit(unsigned int dt)
 {
@@ -104,6 +177,14 @@ void Object::InvertedUpdateOrbit(unsigned int dt)
 	model = glm::rotate(glm::mat4(1.0f), (angleOrbit), glm::vec3(0.0f,1.0f, 0.0f));
 }
 
+void Object::UpdateMoon(unsigned int dt, glm::mat4 planet, int control)
+{
+	angleOrbit += dt * M_PI/500;
+	scaleMoon();
+	model = glm::rotate(model,angleOrbit/10,glm::vec3(0.0f,1.0f,0.0f));
+	model = glm::translate(planet,glm::vec3(cos(angleOrbit)*3,0.0f,sin(angleOrbit)*3))*model;
+	model = glm::rotate(model,angleOrbit,glm::vec3(0.0f,1.0f,0.0f));
+}
 
 glm::mat4 Object::GetModel()
 {
@@ -125,5 +206,10 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+}
+
+void Object::scaleMoon()
+{
+	model = glm::scale(glm::vec3(0.2f,0.2f,0.2f));
 }
 

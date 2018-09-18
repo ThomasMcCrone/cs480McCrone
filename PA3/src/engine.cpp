@@ -77,6 +77,7 @@ void Engine::Run()
     if(!m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,1);
     else m_graphics->Update(m_DT,3);
     
+    
     m_graphics->Render();
 
     // Swap to the Window

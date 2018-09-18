@@ -46,6 +46,7 @@ bool Graphics::Initialize(int width, int height)
 
   // Create the object
   m_cube = new Object();
+  m_moon = new Object(true);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -110,13 +111,15 @@ bool Graphics::Initialize(int width, int height)
 void Graphics::Update(unsigned int dt, int direction)
 {
   // Update the object
-	switch(direction)
-	{
-		case 1: m_cube->UpdateRotation(dt); break;
-		case 2: m_cube->UpdateOrbit(dt); break;
-		case 3: m_cube->InvertedUpdateRotation(dt); break;
-		case 4: m_cube->InvertedUpdateOrbit(dt); break;
-	}
+  switch(direction)
+  {
+  	case 1: m_cube->UpdateRotation(dt); break;
+  	case 2: m_cube->UpdateOrbit(dt); break;
+  	case 3: m_cube->InvertedUpdateRotation(dt); break;
+  	case 4: m_cube->InvertedUpdateOrbit(dt); break;
+  }
+  m_moon->UpdateMoon(dt,m_cube->GetModel(),direction);
+
 }
 
 void Graphics::Render()
@@ -135,6 +138,9 @@ void Graphics::Render()
   // Render the object
   glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
   m_cube->Render();
+  
+  glUniformMatrix4fv(m_modelMatrix,1,GL_FALSE, glm::value_ptr(m_moon->GetModel()));
+  m_moon->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();

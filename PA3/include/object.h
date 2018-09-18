@@ -8,12 +8,15 @@ class Object
 {
   public:
     Object();
+    Object(bool moon);
     ~Object();
     void UpdateRotation(unsigned int dt);
     void UpdateOrbit(unsigned int dt);
     void InvertedUpdateRotation(unsigned int dt);
     void InvertedUpdateOrbit(unsigned int dt);
+    void UpdateMoon(unsigned int dt, glm::mat4 planet, int control);
     void Render();
+    void scaleMoon();
 
     glm::mat4 GetModel();
 
@@ -27,6 +30,7 @@ class Object
     float angleRotation;
     float angleOrbit;
     
+    bool IS_MOON;
 };
 
 #endif /* OBJECT_H */
