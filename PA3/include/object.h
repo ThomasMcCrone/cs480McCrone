@@ -10,10 +10,11 @@ class Object
     Object();
     Object(bool moon);
     ~Object();
-    void UpdateRotation(unsigned int dt);
-    void UpdateOrbit(unsigned int dt);
-    void InvertedUpdateRotation(unsigned int dt);
-    void InvertedUpdateOrbit(unsigned int dt);
+    void Update(unsigned int dt, int orbit, int rotation);
+//    void UpdateRotation(unsigned int dt);
+//    void UpdateOrbit(unsigned int dt);
+//    void InvertedUpdateRotation(unsigned int dt);
+//    void InvertedUpdateOrbit(unsigned int dt);
     void UpdateMoon(unsigned int dt, glm::mat4 planet, int control);
     void Render();
     void scaleMoon();

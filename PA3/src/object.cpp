@@ -152,7 +152,7 @@ Object::~Object()
   Vertices.clear();
   Indices.clear();
 }
-
+/*
 void Object::UpdateRotation(unsigned int dt)
 {
   	angleRotation += dt * M_PI/1000;
@@ -176,12 +176,24 @@ void Object::InvertedUpdateOrbit(unsigned int dt)
 	angleOrbit -= dt * M_PI/10000;
 	model = glm::rotate(glm::mat4(1.0f), (angleOrbit), glm::vec3(0.0f,1.0f, 0.0f));
 }
-
+*/
+void Object::Update(unsigned int dt, int orbit, int rotation)
+{
+	if(orbit == 1) angleOrbit += dt * M_PI/1000;
+	else angleOrbit -= dt * M_PI/1000;
+	
+	if(rotation == 1) angleRotation += dt * M_PI/1000;
+	else angleRotation -= dt * M_PI/1000;
+	
+	model = glm::translate(glm::mat4(1.0f),glm::vec3(cos(angleOrbit)*7,0.0f,sin(angleOrbit)*7));
+	
+	model = glm::rotate(model,angleRotation,glm::vec3(0.0f,1.0f,0.0f));
+}
 void Object::UpdateMoon(unsigned int dt, glm::mat4 planet, int control)
 {
 	angleOrbit += dt * M_PI/500;
 	scaleMoon();
-	model = glm::rotate(model,angleOrbit/10,glm::vec3(0.0f,1.0f,0.0f));
+//	model = glm::rotate(model,angleOrbit/10,glm::vec3(0.0f,1.0f,0.0f));
 	model = glm::translate(planet,glm::vec3(cos(angleOrbit)*3,0.0f,sin(angleOrbit)*3))*model;
 	model = glm::rotate(model,angleOrbit,glm::vec3(0.0f,1.0f,0.0f));
 }

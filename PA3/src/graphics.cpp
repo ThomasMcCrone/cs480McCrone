@@ -113,10 +113,10 @@ void Graphics::Update(unsigned int dt, int direction)
   // Update the object
   switch(direction)
   {
-  	case 1: m_cube->UpdateRotation(dt); break;
-  	case 2: m_cube->UpdateOrbit(dt); break;
-  	case 3: m_cube->InvertedUpdateRotation(dt); break;
-  	case 4: m_cube->InvertedUpdateOrbit(dt); break;
+  	case 1: m_cube->Update(dt,1,1); break;
+  	case 2: m_cube->Update(dt,2,1); break;
+  	case 3: m_cube->Update(dt,1,2); break;
+  	case 4: m_cube->Update(dt,2,2); break;
   }
   m_moon->UpdateMoon(dt,m_cube->GetModel(),direction);
 

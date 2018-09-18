@@ -71,11 +71,10 @@ void Engine::Run()
 
     // Update and render the graphics
     
-    if(!m_REVERSE_DIRECTION_ORBIT) m_graphics->Update(m_DT,2);
-    else m_graphics->Update(m_DT,4);
-    
-    if(!m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,1);
-    else m_graphics->Update(m_DT,3);
+    if(!m_REVERSE_DIRECTION_ORBIT && !m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,1);
+    else if(m_REVERSE_DIRECTION_ORBIT && !m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,2);
+    else if(!m_REVERSE_DIRECTION_ORBIT && m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,3);
+    else if(m_REVERSE_DIRECTION_ORBIT && m_REVERSE_DIRECTION_ROTATION) m_graphics->Update(m_DT,4);
     
     
     m_graphics->Render();
